@@ -1,0 +1,42 @@
+# Dependencies
+node_modules
+
+# Build outputs (will be rebuilt in Docker)
+dist
+build
+out
+dist-electron
+
+# Environment files (secrets)
+.env
+.env.local
+.env.test
+apps/backend/.env
+apps/desktop/.env
+
+# Development files
+.git
+.gitignore
+.workflow
+.turbo
+*.tsbuildinfo
+coverage
+*.log
+
+# Desktop app (not needed for backend Docker build)
+apps/desktop
+
+# Editor / OS files
+.DS_Store
+Thumbs.db
+.vscode
+.idea
+
+# Documentation
+*.md
+!packages/shared/README.md
+docs/
+
+# CI/CD
+.github
+.gitlab-ci.yml

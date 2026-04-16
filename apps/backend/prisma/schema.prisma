@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  MANAGER
+  EMPLOYEE
+}
+
+enum OperationType {
+  PRODUCTION
+  EMISSION
+}
+
+enum OperationSource {
+  EXCEL
+  MANUAL
+  SCRAPER
+}
+
+enum UploadStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model Employee {
+  id             String    @id @default(uuid())
+  email          String    @unique
+  password_hash  String
+  full_name      String
+  operator_code  String    @unique
+  role           Role      @default(EMPLOYEE)
+  is_active      Boolean   @default(true)
+  last_heartbeat DateTime?
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+
+  operations     Operation[]
+  uploads        Upload[]
+  refresh_tokens RefreshToken[]
+
+  @@index([operator_code])
+  @@index([role])
+  @@index([is_active])
+  @@index([last_heartbeat])
+  @@map("employees")
+}
+
+model Operation {
+  id                 String          @id @default(uuid())
+  type               OperationType
+  source             OperationSource
+
+  client_id          String?
+  client_name        String?
+
+  policy_number      String
+  avenant_number     String?
+  quittance_number   String?
+  attestation_number String?
+  policy_status      String?
+  event_type         String?
+
+  emission_date      DateTime?
+  effective_date     DateTime?
+
+  prime_net          Decimal?        @db.Decimal(12, 2)
+  tax_amount         Decimal?        @db.Decimal(12, 2)
+  parafiscal_tax     Decimal?        @db.Decimal(12, 2)
+  total_prime        Decimal?        @db.Decimal(12, 2)
+  commission         Decimal?        @db.Decimal(12, 2)
+
+  employee_id        String
+  employee           Employee        @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+  upload_id          String?
+  upload             Upload?         @relation(fields: [upload_id], references: [id], onDelete: SetNull)
+
+  created_at         DateTime        @default(now())
+  updated_at         DateTime        @updatedAt
+
+  @@unique([type, policy_number, avenant_number, quittance_number], name: "uq_operation_dedup")
+  @@index([employee_id])
+  @@index([upload_id])
+  @@index([type])
+  @@index([source])
+  @@index([policy_number])
+  @@index([created_at])
+  @@index([effective_date])
+  @@index([emission_date])
+  @@map("operations")
+}
+
+model Upload {
+  id             String       @id @default(uuid())
+  filename       String
+  file_size      Int
+  status         UploadStatus @default(PENDING)
+  error_message  String?
+
+  total_rows     Int          @default(0)
+  created_count  Int          @default(0)
+  updated_count  Int          @default(0)
+  skipped_count  Int          @default(0)
+
+  uploaded_by_id String
+  uploaded_by    Employee     @relation(fields: [uploaded_by_id], references: [id], onDelete: Cascade)
+  operations     Operation[]
+
+  created_at     DateTime     @default(now())
+  completed_at   DateTime?
+
+  @@index([uploaded_by_id])
+  @@index([status])
+  @@index([created_at])
+  @@map("uploads")
+}
+
+model RefreshToken {
+  id          String   @id @default(uuid())
+  jti         String   @unique
+  token_hash  String   @unique
+  expires_at  DateTime
+  is_revoked  Boolean  @default(false)
+
+  employee_id String
+  employee    Employee @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+
+  created_at  DateTime @default(now())
+
+  @@index([employee_id])
+  @@index([expires_at])
+  @@index([is_revoked])
+  @@map("refresh_tokens")
+}

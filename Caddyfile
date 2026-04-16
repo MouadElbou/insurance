@@ -1,0 +1,24 @@
+{$DOMAIN:insurance.example.com} {
+	# Reverse proxy all traffic to backend
+	reverse_proxy backend:3001
+
+	# Security headers
+	header {
+		# Prevent MIME type sniffing
+		X-Content-Type-Options nosniff
+		# Clickjacking protection
+		X-Frame-Options DENY
+		# XSS protection
+		X-XSS-Protection "1; mode=block"
+		# Referrer policy
+		Referrer-Policy strict-origin-when-cross-origin
+		# Remove server identification
+		-Server
+	}
+
+	# Logging
+	log {
+		output stdout
+		format json
+	}
+}

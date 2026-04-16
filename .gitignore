@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+dist-electron/
+
+# Environment files (secrets)
+.env
+.env.local
+.env.test
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Turbo
+.turbo/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Test coverage
+coverage/
+
+# Workflow internal files
+.workflow/
+
+# Prisma local databases
+prisma/*.db
+
+# Electron release builds
+release/
+
+# Docker volumes (local dev)
+pgdata/
