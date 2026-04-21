@@ -10,7 +10,7 @@ function createMockPrisma() {
     },
     refreshToken: {
       create: vi.fn(),
-      findMany: vi.fn(),
+      findUnique: vi.fn(),
       update: vi.fn(),
       deleteMany: vi.fn(),
     },
@@ -113,9 +113,8 @@ describe("auth.service", () => {
   });
 
   describe("refresh", () => {
-    it("should throw AUTH_REFRESH_INVALID when no matching token found", async () => {
-      prisma.refreshToken.findMany.mockResolvedValue([]);
-
+    it("should throw AUTH_REFRESH_INVALID when token is malformed", async () => {
+      // No colon → parseRefreshToken returns null
       await expect(refresh(prisma, "nonexistent-token"))
         .rejects.toMatchObject({
           statusCode: 401,
@@ -123,24 +122,34 @@ describe("auth.service", () => {
         });
     });
 
+    it("should throw AUTH_REFRESH_INVALID when no matching token found", async () => {
+      prisma.refreshToken.findUnique.mockResolvedValue(null);
+
+      await expect(refresh(prisma, "some-jti:some-raw"))
+        .rejects.toMatchObject({
+          statusCode: 401,
+          code: "AUTH_REFRESH_INVALID",
+        });
+    });
+
     it("should throw AUTH_ACCOUNT_DISABLED if employee is inactive and revoke the token", async () => {
-      // We need a real bcrypt hash that matches our test token
       const { hashRefreshToken } = await import("../../../src/utils/token.js");
       const rawToken = "test-refresh-token";
       const tokenHash = await hashRefreshToken(rawToken);
 
       const storedToken = {
         id: "rt-1",
+        jti: "jti-1",
         token_hash: tokenHash,
         is_revoked: false,
         expires_at: new Date(Date.now() + 3_600_000),
         employee: createMockEmployee({ is_active: false }),
       };
 
-      prisma.refreshToken.findMany.mockResolvedValue([storedToken]);
+      prisma.refreshToken.findUnique.mockResolvedValue(storedToken);
       prisma.refreshToken.update.mockResolvedValue({});
 
-      await expect(refresh(prisma, rawToken))
+      await expect(refresh(prisma, `jti-1:${rawToken}`))
         .rejects.toMatchObject({
           statusCode: 401,
           code: "AUTH_ACCOUNT_DISABLED",
@@ -160,17 +169,18 @@ describe("auth.service", () => {
 
       const storedToken = {
         id: "rt-2",
+        jti: "jti-2",
         token_hash: tokenHash,
         is_revoked: false,
         expires_at: new Date(Date.now() + 3_600_000),
         employee: createMockEmployee({ is_active: true }),
       };
 
-      prisma.refreshToken.findMany.mockResolvedValue([storedToken]);
+      prisma.refreshToken.findUnique.mockResolvedValue(storedToken);
       prisma.refreshToken.update.mockResolvedValue({});
       prisma.refreshToken.create.mockResolvedValue({});
 
-      const result = await refresh(prisma, rawToken);
+      const result = await refresh(prisma, `jti-2:${rawToken}`);
 
       expect(result).toHaveProperty("access_token");
       expect(result).toHaveProperty("refresh_token");
@@ -196,15 +206,16 @@ describe("auth.service", () => {
 
       const storedToken = {
         id: "rt-3",
+        jti: "jti-3",
         token_hash: tokenHash,
         is_revoked: false,
         expires_at: new Date(Date.now() + 3_600_000),
       };
 
-      prisma.refreshToken.findMany.mockResolvedValue([storedToken]);
+      prisma.refreshToken.findUnique.mockResolvedValue(storedToken);
       prisma.refreshToken.update.mockResolvedValue({});
 
-      await logout(prisma, rawToken);
+      await logout(prisma, `jti-3:${rawToken}`);
 
       expect(prisma.refreshToken.update).toHaveBeenCalledWith({
         where: { id: "rt-3" },
@@ -213,10 +224,15 @@ describe("auth.service", () => {
     });
 
     it("should be idempotent when no matching token exists", async () => {
-      prisma.refreshToken.findMany.mockResolvedValue([]);
+      prisma.refreshToken.findUnique.mockResolvedValue(null);
 
       // Should not throw
-      await expect(logout(prisma, "unknown-token")).resolves.toBeUndefined();
+      await expect(logout(prisma, "jti-none:unknown-token")).resolves.toBeUndefined();
+      expect(prisma.refreshToken.update).not.toHaveBeenCalled();
+    });
+
+    it("should be idempotent when token is malformed", async () => {
+      await expect(logout(prisma, "malformed-no-colon")).resolves.toBeUndefined();
       expect(prisma.refreshToken.update).not.toHaveBeenCalled();
     });
   });
