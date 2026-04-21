@@ -1,13 +1,13 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Search, X } from "lucide-react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 
-interface SearchInputProps {
-  value: string;
-  onChange: (value: string) => void;
+export interface SearchInputProps {
+  value?: string;
+  onChange?: (value: string) => void;
   placeholder?: string;
   className?: string;
   debounceMs?: number;
@@ -20,20 +20,22 @@ export function SearchInput({
   className,
   debounceMs = 300,
 }: SearchInputProps) {
-  const [localValue, setLocalValue] = useState(externalValue);
+  const [localValue, setLocalValue] = useState(externalValue ?? "");
   const debouncedValue = useDebounce(localValue, debounceMs);
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
 
   useEffect(() => {
-    onChange(debouncedValue);
-  }, [debouncedValue, onChange]);
+    onChangeRef.current?.(debouncedValue);
+  }, [debouncedValue]);
 
   useEffect(() => {
-    setLocalValue(externalValue);
+    if (externalValue !== undefined) setLocalValue(externalValue);
   }, [externalValue]);
 
   const handleClear = useCallback(() => {
     setLocalValue("");
-    onChange("");
+    onChange?.("");
   }, [onChange]);
 
   return (

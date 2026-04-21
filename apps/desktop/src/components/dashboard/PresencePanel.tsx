@@ -1,9 +1,8 @@
 import type { EmployeePresence } from "@insurance/shared";
-import { PresenceIndicator } from "./PresenceIndicator";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Users } from "lucide-react";
 import { useMemo } from "react";
+import { cn } from "@/lib/utils";
 
 interface PresencePanelProps {
   presenceMap: Map<string, EmployeePresence>;
@@ -21,49 +20,70 @@ export function PresencePanel({ presenceMap, isLoading }: PresencePanelProps) {
     );
   }, [presenceMap]);
 
-  const onlineCount = useMemo(
-    () => sortedPresence.filter((p) => p.status === "online").length,
-    [sortedPresence],
-  );
+  const initials = (name: string) =>
+    name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
 
   return (
-    <div className="rounded-xl border bg-card animate-fade-in">
-      <div className="flex items-center gap-2 px-4 py-3 border-b">
-        <Users className="h-4 w-4 text-muted-foreground" />
-        <h3 className="text-sm font-semibold">Equipe</h3>
-        {!isLoading && (
-          <span className="ml-auto inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-            <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-            {onlineCount} en ligne
-          </span>
-        )}
-      </div>
+    <div className="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+      <h4 className="text-sm font-bold text-outline mb-6 uppercase tracking-widest">
+        Équipe en ligne
+      </h4>
 
       {isLoading ? (
-        <div className="p-3 space-y-2">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="flex items-center gap-3 px-3 py-2">
+        <div className="space-y-4">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-3">
               <Skeleton className="h-8 w-8 rounded-full" />
-              <div className="flex-1 space-y-1.5">
-                <Skeleton className="h-3.5 w-24" />
-                <Skeleton className="h-2.5 w-14" />
+              <div className="space-y-1">
+                <Skeleton className="h-3 w-24" />
+                <Skeleton className="h-2.5 w-16" />
               </div>
             </div>
           ))}
         </div>
       ) : sortedPresence.length === 0 ? (
         <div className="flex flex-col items-center py-8 text-center">
-          <Users className="h-6 w-6 text-muted-foreground/40 mb-2" />
-          <p className="text-xs text-muted-foreground">Aucun employe</p>
+          <Users className="h-6 w-6 text-on-surface-variant/40 mb-2" />
+          <p className="text-xs text-on-surface-variant">Aucun employé</p>
         </div>
       ) : (
-        <ScrollArea className="h-[400px]">
-          <div className="p-2">
-            {sortedPresence.map((p) => (
-              <PresenceIndicator key={p.employee_id} presence={p} />
-            ))}
-          </div>
-        </ScrollArea>
+        <div className="space-y-4">
+          {sortedPresence.map((p) => {
+            const isOffline = p.status === "offline";
+            return (
+              <div
+                key={p.employee_id}
+                className={cn(
+                  "flex items-center gap-3",
+                  isOffline && "opacity-60",
+                )}
+              >
+                <div className="relative">
+                  <div className="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-[10px] font-bold text-on-surface-variant">
+                    {initials(p.employee_name)}
+                  </div>
+                  <span
+                    className={cn(
+                      "absolute bottom-0 right-0 w-2 h-2 border border-white rounded-full",
+                      isOffline ? "bg-outline" : "bg-secondary",
+                    )}
+                  />
+                </div>
+                <div>
+                  <p className="text-xs font-bold">{p.employee_name}</p>
+                  <p className="text-[9px] text-outline font-medium">
+                    {isOffline ? "Hors ligne" : "En ligne"}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       )}
     </div>
   );

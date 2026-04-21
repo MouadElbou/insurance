@@ -12,7 +12,7 @@ export default defineConfig({
     setupFiles: ["__tests__/setup.ts"],
     testTimeout: 10000,
     alias: {
-      "@/*": path.resolve(__dirname, "./src") + "/",
+      "@": path.resolve(__dirname, "./src"),
       "@insurance/shared": path.resolve(__dirname, "../../packages/shared/src"),
     },
   },

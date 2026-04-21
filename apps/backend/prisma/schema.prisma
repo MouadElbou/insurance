@@ -42,9 +42,11 @@ model Employee {
   created_at     DateTime  @default(now())
   updated_at     DateTime  @updatedAt
 
-  operations     Operation[]
-  uploads        Upload[]
-  refresh_tokens RefreshToken[]
+  operations               Operation[]
+  uploads                  Upload[]
+  refresh_tokens           RefreshToken[]
+  scraper_events           ScraperEvent[]
+  created_insurer_domains  InsurerDomain[] @relation("InsurerDomainCreator")
 
   @@index([operator_code])
   @@index([role])
@@ -138,4 +140,63 @@ model RefreshToken {
   @@index([expires_at])
   @@index([is_revoked])
   @@map("refresh_tokens")
+}
+
+enum TransformerVerdict {
+  PENDING
+  TRANSFORMED
+  IGNORED
+  ERROR
+}
+
+model ScraperEvent {
+  id                   String             @id @default(uuid())
+  employee_id          String
+  employee             Employee           @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+
+  insurer_code         String?
+  host                 String
+  url                  String             @db.Text
+  method               String
+  status_code          Int?
+
+  request_headers      Json?
+  request_body         String?            @db.Text
+  response_headers     Json?
+  response_body        String?            @db.Text
+
+  captured_at          DateTime
+  processed_at         DateTime?
+
+  transformer_verdict  TransformerVerdict @default(PENDING)
+  transformer_notes    String?            @db.Text
+
+  created_at           DateTime           @default(now())
+
+  @@index([employee_id])
+  @@index([host])
+  @@index([insurer_code])
+  @@index([captured_at])
+  @@index([transformer_verdict])
+  @@index([processed_at])
+  @@map("scraper_events")
+}
+
+model InsurerDomain {
+  id               String   @id @default(uuid())
+  insurer_code     String
+  host_pattern     String   @unique
+  label            String
+  capture_enabled  Boolean  @default(true)
+  notes            String?  @db.Text
+
+  created_by_id    String?
+  created_by       Employee? @relation("InsurerDomainCreator", fields: [created_by_id], references: [id], onDelete: SetNull)
+
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  @@index([insurer_code])
+  @@index([capture_enabled])
+  @@map("insurer_domains")
 }

@@ -7,5 +7,8 @@ export const ROUTES = {
   UPLOADS: "/uploads",
   MY_OPERATIONS: "/my-operations",
   MANUAL_ENTRY: "/entry",
+  PORTAL: "/portail",
+  SCRAPER_EVENTS: "/scraper-events",
+  INSURER_DOMAINS: "/insurer-domains",
   NOT_FOUND: "*",
 } as const;

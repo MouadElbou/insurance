@@ -4,14 +4,17 @@ import type {
   ActivityItem,
   EmployeePresence,
   PresenceUpdatePayload,
+  ChartData,
 } from "@insurance/shared";
 
 interface DashboardState {
   kpis: KpiData | null;
+  charts: ChartData | null;
   activityFeed: ActivityItem[];
   presenceMap: Map<string, EmployeePresence>;
   isLoading: boolean;
   setKpis: (kpis: KpiData) => void;
+  setCharts: (charts: ChartData) => void;
   addActivity: (item: ActivityItem) => void;
   setActivityFeed: (items: ActivityItem[]) => void;
   updatePresence: (presence: PresenceUpdatePayload) => void;
@@ -24,11 +27,13 @@ const MAX_ACTIVITY_ITEMS = 50;
 
 export const useDashboardStore = create<DashboardState>((set) => ({
   kpis: null,
+  charts: null,
   activityFeed: [],
   presenceMap: new Map(),
   isLoading: true,
 
   setKpis: (kpis) => set({ kpis }),
+  setCharts: (charts) => set({ charts }),
 
   addActivity: (item) =>
     set((state) => ({
@@ -62,6 +67,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
   reset: () =>
     set({
       kpis: null,
+      charts: null,
       activityFeed: [],
       presenceMap: new Map(),
       isLoading: true,

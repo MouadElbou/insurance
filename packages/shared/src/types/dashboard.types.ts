@@ -41,3 +41,46 @@ export interface EmployeePresence {
   status: PresenceStatus;
   last_heartbeat: string | null;
 }
+
+// ── Chart data types ──
+
+export interface MonthlyTrendPoint {
+  month: string; // "2026-03"
+  label: string; // "Mars"
+  prime_net: number;
+  commissions: number;
+  operations_count: number;
+}
+
+export interface TypeBreakdown {
+  type: OperationType;
+  count: number;
+  prime_net: number;
+}
+
+export interface SourceBreakdown {
+  source: OperationSource;
+  count: number;
+  prime_net: number;
+}
+
+export interface TopEmployee {
+  employee_id: string;
+  employee_name: string;
+  total_commission: number;
+  operations_count: number;
+}
+
+export interface DailyVolumePoint {
+  date: string; // "2026-03-15"
+  count: number;
+  prime_net: number;
+}
+
+export interface ChartData {
+  monthly_trend: MonthlyTrendPoint[];
+  by_type: TypeBreakdown[];
+  by_source: SourceBreakdown[];
+  top_employees: TopEmployee[];
+  daily_volume: DailyVolumePoint[];
+}

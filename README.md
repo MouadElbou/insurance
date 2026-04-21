@@ -280,6 +280,73 @@ Base URL: `/api/v1`
 | `pnpm db:studio` | Open Prisma Studio GUI |
 | `pnpm test` | Run tests |
 
+## Scraper Ingestion
+
+The desktop app silently captures scraper events from insurer web portals as employees browse them. Capture runs in the background through Electron's `WebContentsView` + `session.webRequest` + Chrome DevTools Protocol — employees keep using their existing portal workflow and the backend ingests the HTTP payloads that match a manager-curated allowlist.
+
+### How it works
+
+1. **Allowlist lives server-side.** Managers register insurer host patterns through the `InsurerDomain` CRUD (`Parametres > Domaines assureurs`). Each entry carries a `host_pattern` (regex), `insurer_code` (enum from `@insurance/shared`), `capture_enabled` flag, and optional `transformer_notes`.
+2. **Two-layer regex safety.** Host patterns are validated by a shared Zod schema (`packages/shared/src/schemas/scraper.schema.ts`) that runs the `safe-regex` check at write-time; the desktop allowlist compiler re-validates with a try/catch at runtime (`apps/desktop/electron/allowlist.ts`). Unsafe patterns are rejected both on save and during portal load.
+3. **Silent capture.** The Electron main process wires `session.defaultSession.webRequest.onCompleted` + `debugger.attach("Network")` so navigation and background XHR/fetch requests with a matching host are siphoned into a buffered queue. Requests never reach the React renderer.
+4. **Authenticated forwarding.** The main process reads the encrypted JWT from `tokens.dat` (via `safeStorage`) and batches captured events to `POST /api/v1/scraper/events` with `SCRAPER_MAX_BATCH` rows per request.
+5. **Server-side dedup + retention.** The backend upserts by `(insurer_code, avenant_number, quittance_number, captured_at)` — null-aware via Prisma `IS NULL` — and a nightly job purges rows older than `SCRAPER_RETENTION_DAYS` days by `captured_at`.
+
+### Managing insurer domains (manager-only)
+
+`GET/POST/PATCH/DELETE /api/v1/scraper/domains` — CRUD guarded by `authenticate` + `authorize("MANAGER")` + per-user rate limit (keyed on JWT `sub`, not `req.ip`).
+
+| Field | Validation | Notes |
+|---|---|---|
+| `host_pattern` | Zod + `safe-regex` (no catastrophic backtracking) | Example: `^portal\\.assureur-x\\.ma$` |
+| `insurer_code` | Enum from `@insurance/shared` | e.g. `RMA`, `WAFA`, `SAHAM` |
+| `capture_enabled` | Boolean | Toggle without deleting the entry |
+| `transformer_notes` | Optional string | Describes portal-specific field mapping (single name across the stack) |
+
+Unsafe or invalid patterns surface as `AllowlistRejection` records and are surfaced in the UI; they are logged but never compiled.
+
+### Local development (scraper surface)
+
+```bash
+# 1. Backend env (adds scraper keys)
+cp apps/backend/.env.example apps/backend/.env
+# Ensure SCRAPER_MAX_BATCH and SCRAPER_RETENTION_DAYS are set (defaults below).
+
+# 2. Desktop env (unchanged — uses VITE_API_URL)
+cp apps/desktop/.env.example apps/desktop/.env
+
+# 3. Seed includes a default InsurerDomain row for local testing
+pnpm --filter backend run db:seed
+```
+
+The seed inserts a `capture_enabled: false` domain you can flip on from the UI for smoke-testing without live traffic.
+
+### Scraper environment variables
+
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `SCRAPER_MAX_BATCH` | No | `50` | Max events per `POST /api/v1/scraper/events` batch |
+| `SCRAPER_RETENTION_DAYS` | No | `90` | Purge events older than N days (by `captured_at`) |
+
+Already present in `apps/backend/.env.example:11-12`.
+
+### Encrypted JWT storage
+
+The desktop app stores the refresh JWT in `tokens.dat` encrypted via Electron `safeStorage`. The file is created on first login and is `.gitignore`d at both repo root and any working directory — never commit it. If `safeStorage.isEncryptionAvailable()` returns `false` (OS keychain unavailable), the fallback path logs a warning and stores the token in plaintext; production packaging should harden this to a hard failure. See `apps/desktop/electron/ipc-handlers.ts`.
+
+### Testing the scraper surface
+
+```bash
+# Backend scraper suite (69 tests)
+pnpm --filter backend test -- scraper
+
+# Desktop allowlist + capture tests (5 tests)
+pnpm --filter desktop test -- scraper
+
+# Shared Zod + regex-safety regression tests (74 tests)
+pnpm --filter @insurance/shared test
+```
+
 ## License
 
 Private -- proprietary software.

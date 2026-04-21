@@ -11,6 +11,9 @@ import { EmployeeDetailPage } from "@/pages/EmployeeDetailPage";
 import { UploadsPage } from "@/pages/UploadsPage";
 import { MyOperationsPage } from "@/pages/MyOperationsPage";
 import { ManualEntryPage } from "@/pages/ManualEntryPage";
+import { PortalPage } from "@/pages/PortalPage";
+import { ScraperEventsPage } from "@/pages/ScraperEventsPage";
+import { InsurerDomainsPage } from "@/pages/InsurerDomainsPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { useAuthStore } from "@/stores/auth.store";
 import { ROUTES } from "@/router/routes";
@@ -36,10 +39,15 @@ export function AppRouter() {
             <Route path="/employees" element={<EmployeesPage />} />
             <Route path="/employees/:id" element={<EmployeeDetailPage />} />
             <Route path="/uploads" element={<UploadsPage />} />
+            <Route path={ROUTES.SCRAPER_EVENTS} element={<ScraperEventsPage />} />
+            <Route path={ROUTES.INSURER_DOMAINS} element={<InsurerDomainsPage />} />
           </Route>
           <Route element={<RoleRoute allowed={["EMPLOYEE"]} />}>
             <Route path="/my-operations" element={<MyOperationsPage />} />
             <Route path="/entry" element={<ManualEntryPage />} />
+          </Route>
+          <Route element={<RoleRoute allowed={["MANAGER", "EMPLOYEE"]} />}>
+            <Route path={ROUTES.PORTAL} element={<PortalPage />} />
           </Route>
         </Route>
       </Route>

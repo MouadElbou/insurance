@@ -5,3 +5,4 @@ export * from "./operation.types.js";
 export * from "./upload.types.js";
 export * from "./dashboard.types.js";
 export * from "./socket.types.js";
+export * from "./scraper.types.js";

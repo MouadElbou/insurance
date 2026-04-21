@@ -28,6 +28,11 @@ export default defineConfig({
             outDir: "dist-electron",
             rollupOptions: {
               external: ["electron"],
+              output: {
+                format: "es",
+                entryFileNames: "preload.mjs",
+                inlineDynamicImports: true,
+              },
             },
           },
         },

@@ -22,17 +22,17 @@ export function UploadProgressBar({
     : 0;
 
   return (
-    <div className="rounded-xl border bg-card p-4 space-y-3 animate-slide-up">
+    <div className="rounded-xl border border-outline-variant/10 bg-surface-container-lowest p-4 space-y-3 animate-slide-up">
       <div className="flex items-center gap-3">
         <Loader2 className="h-4 w-4 animate-spin text-primary shrink-0" />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium">
+          <p className="text-sm font-medium text-on-surface">
             {hasProgress
               ? "Traitement en cours..."
               : "Envoi du fichier..."}
           </p>
           {hasProgress && (
-            <p className="text-xs text-muted-foreground mt-0.5">
+            <p className="text-xs text-on-surface-variant mt-0.5">
               {progress.processed_rows} / {progress.total_rows} lignes traitees
             </p>
           )}

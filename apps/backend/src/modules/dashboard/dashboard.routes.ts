@@ -5,6 +5,7 @@ import {
   kpisHandler,
   activityHandler,
   presenceHandler,
+  chartsHandler,
 } from "./dashboard.handler.js";
 
 export default async function dashboardRoutes(fastify: FastifyInstance) {
@@ -20,4 +21,7 @@ export default async function dashboardRoutes(fastify: FastifyInstance) {
 
   // GET /presence
   fastify.get("/presence", { handler: presenceHandler });
+
+  // GET /charts — monthly trend, type/source breakdown, top employees, daily volume
+  fastify.get("/charts", { handler: chartsHandler });
 }

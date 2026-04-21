@@ -1,10 +1,16 @@
 import { app, BrowserWindow, Tray, Menu, nativeImage, session } from "electron";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { registerIpcHandlers } from "./ipc-handlers";
 import { initUpdater } from "./updater";
+import { PortalManager } from "./portal-manager";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let mainWindow: BrowserWindow | null = null;
 let tray: Tray | null = null;
+let portalManager: PortalManager | null = null;
 
 const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL || "http://localhost:5173";
 const isDev = !app.isPackaged;
@@ -20,7 +26,8 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, "preload.js"),
+      sandbox: false,
+      preload: path.join(__dirname, "preload.mjs"),
       spellcheck: false,
     },
   });
@@ -42,7 +49,9 @@ function createWindow() {
     mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
   }
 
-  // Content Security Policy
+  // Content Security Policy — applies only to our tracker app's main window.
+  // The WebContentsView used for insurer portals runs on a separate session
+  // partition (PORTAL_SESSION_PARTITION) and is NOT affected by this CSP.
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     callback({
       responseHeaders: {
@@ -88,9 +97,40 @@ function createTray() {
   });
 }
 
+function createPortalManager() {
+  portalManager = new PortalManager({
+    // The renderer owns the JWT. Main asks the renderer to POST the batch with
+    // the user's auth header, keeping tokens out of the main process.
+    flushToBackend: async ({ window, batch }) => {
+      if (!window || window.isDestroyed()) {
+        throw new Error("Fenêtre principale indisponible");
+      }
+      await new Promise<void>((resolve, reject) => {
+        const replyChannel = `scraper:flush-batch-reply:${batch.batch_id}`;
+        const timeout = setTimeout(() => {
+          window.webContents.ipc.removeAllListeners(replyChannel);
+          reject(new Error("Délai dépassé pour le flush"));
+        }, 30_000);
+        window.webContents.ipc.once(replyChannel, (_ev, payload) => {
+          clearTimeout(timeout);
+          const { ok, error } = payload as { ok: boolean; error?: string };
+          if (ok) resolve();
+          else reject(new Error(error ?? "Échec du flush"));
+        });
+        window.webContents.send("scraper:flush-batch", { batch, replyChannel });
+      });
+    },
+  });
+  if (mainWindow) {
+    portalManager.attachWindow(mainWindow);
+  }
+  return portalManager;
+}
+
 app.whenReady().then(() => {
-  registerIpcHandlers();
   createWindow();
+  const manager = createPortalManager();
+  registerIpcHandlers({ getPortalManager: () => manager });
   createTray();
   initUpdater();
 });
@@ -102,6 +142,9 @@ app.on("window-all-closed", () => {
 app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
+    if (portalManager && mainWindow) {
+      portalManager.attachWindow(mainWindow);
+    }
   }
 });
 

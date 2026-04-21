@@ -6,16 +6,19 @@ import type {
   KpiData,
   ActivityItem,
   EmployeePresence,
+  ChartData,
 } from "@insurance/shared";
 import { toast } from "sonner";
 
 export function useDashboard() {
   const {
     kpis,
+    charts,
     activityFeed,
     presenceMap,
     isLoading,
     setKpis,
+    setCharts,
     setActivityFeed,
     setPresenceList,
     setLoading,
@@ -25,12 +28,14 @@ export function useDashboard() {
   const fetchDashboard = useCallback(async () => {
     setLoading(true);
     try {
-      const [kpiData, activity, presence] = await Promise.all([
+      const [kpiData, chartData, activity, presence] = await Promise.all([
         api.get<KpiData>("dashboard/kpis"),
+        api.get<ChartData>("dashboard/charts"),
         api.get<ActivityItem[]>("dashboard/activity"),
         api.get<EmployeePresence[]>("dashboard/presence"),
       ]);
       setKpis(kpiData);
+      setCharts(chartData);
       setActivityFeed(activity);
       setPresenceList(presence);
     } catch {
@@ -38,7 +43,7 @@ export function useDashboard() {
     } finally {
       setLoading(false);
     }
-  }, [setKpis, setActivityFeed, setPresenceList, setLoading]);
+  }, [setKpis, setCharts, setActivityFeed, setPresenceList, setLoading]);
 
   useEffect(() => {
     fetchDashboard();
@@ -51,6 +56,7 @@ export function useDashboard() {
 
   return {
     kpis,
+    charts,
     activity: activityFeed,
     presenceMap,
     isLoading,

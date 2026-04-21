@@ -23,39 +23,43 @@ export function PresenceIndicator({ presence }: PresenceIndicatorProps) {
 
   const dotColor = PRESENCE_COLORS[presence.status] || PRESENCE_COLORS.offline;
   const statusLabel = PRESENCE_LABELS[presence.status] || presence.status;
+  const isOffline = presence.status === "offline";
 
   return (
     <Tooltip>
       <TooltipTrigger
         render={
-          <div className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted/50 transition-colors cursor-default" />
+          <div className={cn(
+            "flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-surface-container-low transition-colors cursor-default",
+            isOffline && "opacity-60",
+          )} />
         }
       >
         <div className="relative">
           <Avatar className="h-8 w-8">
-            <AvatarFallback className="text-xs font-medium bg-muted">
+            <AvatarFallback className="text-xs font-medium bg-surface-container text-on-surface-variant">
               {initials}
             </AvatarFallback>
           </Avatar>
           <div
             className={cn(
-              "absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-card",
+              "absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-surface-container-lowest",
               dotColor,
               presence.status === "online" && "animate-pulse",
             )}
           />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium truncate">
+          <p className="text-sm font-medium text-on-surface truncate">
             {presence.employee_name}
           </p>
-          <p className="text-[10px] text-muted-foreground">{statusLabel}</p>
+          <p className="text-[10px] text-on-surface-variant">{statusLabel}</p>
         </div>
       </TooltipTrigger>
       <TooltipContent side="left" sideOffset={8}>
         <div className="text-xs">
           <p className="font-medium">{presence.employee_name}</p>
-          <p className="text-muted-foreground">
+          <p className="text-on-surface-variant">
             {statusLabel}
             {presence.last_heartbeat
               ? ` - ${formatRelativeTime(presence.last_heartbeat)}`

@@ -1,5 +1,4 @@
 import type { UploadResult } from "@insurance/shared";
-import { Button } from "@/components/ui/button";
 import { Check, AlertTriangle, X } from "lucide-react";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { cn } from "@/lib/utils";
@@ -22,17 +21,17 @@ export function UploadResultSummary({
     <div
       className={cn(
         "rounded-xl border p-4 animate-slide-up",
-        isSuccess && "border-green-200 bg-green-50/50",
-        isFailed && "border-red-200 bg-red-50/50",
-        !isSuccess && !isFailed && "border-amber-200 bg-amber-50/50",
+        isSuccess && "border-secondary/20 bg-secondary-container/20",
+        isFailed && "border-error/20 bg-error-container/20",
+        !isSuccess && !isFailed && "border-tertiary/20 bg-tertiary-container/20",
       )}
     >
       <div className="flex items-start gap-3">
         <div className="shrink-0 mt-0.5">
           {isSuccess ? (
-            <Check className="h-5 w-5 text-green-600" />
+            <Check className="h-5 w-5 text-secondary" />
           ) : (
-            <AlertTriangle className="h-5 w-5 text-red-600" />
+            <AlertTriangle className="h-5 w-5 text-error" />
           )}
         </div>
 
@@ -41,9 +40,9 @@ export function UploadResultSummary({
             <p
               className={cn(
                 "text-sm font-semibold",
-                isSuccess && "text-green-800",
-                isFailed && "text-red-800",
-                !isSuccess && !isFailed && "text-amber-800",
+                isSuccess && "text-on-secondary-container",
+                isFailed && "text-error",
+                !isSuccess && !isFailed && "text-on-tertiary-container",
               )}
             >
               {isSuccess
@@ -56,36 +55,36 @@ export function UploadResultSummary({
           </div>
 
           {result.error_message && (
-            <p className="text-xs text-red-700 bg-red-100/60 rounded-md px-2 py-1.5">
+            <p className="text-xs text-error bg-error-container/40 rounded-md px-2 py-1.5">
               {result.error_message}
             </p>
           )}
 
           <div className="flex flex-wrap gap-4 text-xs">
             <div className="flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-muted-foreground/30" />
-              <span className="text-muted-foreground">Total :</span>
+              <span className="h-2 w-2 rounded-full bg-outline/30" />
+              <span className="text-on-surface-variant">Total :</span>
               <span className="font-medium tabular-nums">
                 {result.total_rows}
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-green-500" />
-              <span className="text-muted-foreground">Crees :</span>
+              <span className="text-on-surface-variant">Crees :</span>
               <span className="font-medium tabular-nums text-green-700">
                 {result.created_count}
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-blue-500" />
-              <span className="text-muted-foreground">Mis a jour :</span>
+              <span className="text-on-surface-variant">Mis a jour :</span>
               <span className="font-medium tabular-nums text-blue-700">
                 {result.updated_count}
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-amber-500" />
-              <span className="text-muted-foreground">Ignores :</span>
+              <span className="text-on-surface-variant">Ignores :</span>
               <span className="font-medium tabular-nums text-amber-700">
                 {result.skipped_count}
               </span>
@@ -93,15 +92,13 @@ export function UploadResultSummary({
           </div>
         </div>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-7 w-7 shrink-0"
+        <button
+          className="h-7 w-7 shrink-0 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors"
           onClick={onDismiss}
           aria-label="Fermer"
         >
           <X className="h-3.5 w-3.5" />
-        </Button>
+        </button>
       </div>
     </div>
   );

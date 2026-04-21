@@ -1,7 +1,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,44 +9,44 @@
 
 @layer base {
   :root {
-    /* Deep navy primary with warm gold accent — professional insurance aesthetic */
-    --background: 0 0% 98.5%;
-    --foreground: 222 47% 11%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    /* M3 "Financial Architect" — tonal depth, no borders */
+    --background: 225 100% 98%;       /* surface #f8f9ff */
+    --foreground: 214 63% 12%;        /* on-surface #0b1c30 */
+    --card: 0 0% 100%;                /* surface-container-lowest #ffffff */
+    --card-foreground: 214 63% 12%;   /* on-surface */
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 214 32% 93%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 220 14% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 38 92% 50%;
-    --accent-foreground: 26 83% 14%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 221 83% 53%;
-    --radius: 0.5rem;
-    --chart-1: 221 83% 53%;
-    --chart-2: 38 92% 50%;
-    --chart-3: 142 71% 45%;
-    --chart-4: 262 60% 55%;
-    --chart-5: 0 84% 60%;
-    --sidebar: 222 47% 11%;
-    --sidebar-foreground: 210 40% 96%;
-    --sidebar-primary: 221 83% 60%;
-    --sidebar-primary-foreground: 210 40% 98%;
-    --sidebar-accent: 222 47% 16%;
-    --sidebar-accent-foreground: 210 40% 96%;
-    --sidebar-border: 222 40% 18%;
-    --sidebar-ring: 221 83% 53%;
-    --success: 142 71% 45%;
-    --success-foreground: 210 40% 98%;
-    --warning: 38 92% 50%;
-    --warning-foreground: 26 83% 14%;
+    --popover-foreground: 214 63% 12%;
+    --primary: 218 100% 39%;          /* #004ac6 */
+    --primary-foreground: 230 100% 97%; /* on-primary-container #eeefff */
+    --secondary: 155 100% 21%;        /* secondary-m3 #006c49 */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 221 100% 95%;            /* surface-container-low #eff4ff */
+    --muted-foreground: 233 12% 30%;  /* on-surface-variant #434655 */
+    --accent: 221 100% 95%;           /* surface-container-low */
+    --accent-foreground: 214 63% 12%;
+    --destructive: 0 69% 41%;         /* error-m3 #ba1a1a */
+    --destructive-foreground: 0 0% 100%;
+    --border: 232 15% 81%;            /* outline-variant #c3c6d7 */
+    --input: 232 15% 81%;
+    --ring: 218 100% 39%;
+    --radius: 0.75rem;
+    --chart-1: 218 100% 39%;          /* primary #004ac6 */
+    --chart-2: 155 100% 21%;          /* secondary #006c49 */
+    --chart-3: 32 100% 24%;           /* tertiary #784b00 */
+    --chart-4: 221 83% 53%;           /* primary-container #2563eb */
+    --chart-5: 0 69% 41%;             /* error #ba1a1a */
+    --sidebar: 221 100% 97%;          /* surface-container-low #eff4ff */
+    --sidebar-foreground: 214 63% 12%;/* on-surface */
+    --sidebar-primary: 218 100% 39%;  /* primary */
+    --sidebar-primary-foreground: 230 100% 97%;
+    --sidebar-accent: 221 100% 93%;   /* surface-container #e5eeff */
+    --sidebar-accent-foreground: 214 63% 12%;
+    --sidebar-border: 232 15% 81%;    /* outline-variant */
+    --sidebar-ring: 218 100% 39%;
+    --success: 155 100% 21%;          /* #006c49 */
+    --success-foreground: 0 0% 100%;
+    --warning: 32 100% 30%;           /* tertiary-container #996100 */
+    --warning-foreground: 0 0% 100%;
   }
 
   * {
@@ -55,15 +55,14 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "DM Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: "cv01", "cv02", "cv11";
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: "DM Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
-    font-weight: 600;
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-weight: 700;
     letter-spacing: -0.02em;
   }
 
@@ -112,6 +111,36 @@
   .stagger-2 { animation-delay: 100ms; }
   .stagger-3 { animation-delay: 150ms; }
   .stagger-4 { animation-delay: 200ms; }
+
+  /* M3 Design System Utilities */
+  .glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .ghost-border {
+    border: 1px solid rgba(195, 198, 215, 0.15);
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .gradient-cta {
+    background: linear-gradient(135deg, #004ac6, #2563eb);
+  }
+
+  .ambient-shadow {
+    box-shadow: 0 8px 32px rgba(11, 28, 48, 0.06);
+  }
+
+  .label-uppercase {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
 }
 
 @keyframes fade-in {

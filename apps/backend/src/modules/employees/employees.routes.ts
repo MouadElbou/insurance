@@ -7,6 +7,7 @@ import {
   listHandler,
   getByIdHandler,
   statsHandler,
+  bulkStatsHandler,
   createHandler,
   updateHandler,
   removeHandler,
@@ -20,6 +21,12 @@ export default async function employeesRoutes(fastify: FastifyInstance) {
   fastify.get("/", {
     preHandler: [authorize("MANAGER")],
     handler: listHandler,
+  });
+
+  // GET /bulk-stats — get stats for all employees (MANAGER only)
+  fastify.get("/bulk-stats", {
+    preHandler: [authorize("MANAGER")],
+    handler: bulkStatsHandler,
   });
 
   // GET /:id — get employee (MANAGER, or own ID for EMPLOYEE)

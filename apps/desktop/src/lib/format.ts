@@ -41,6 +41,23 @@ export function formatRelativeTime(
   return formatDistanceToNow(d, { addSuffix: true, locale: fr });
 }
 
+export function formatCompactCurrency(
+  value: string | number | null | undefined,
+): string {
+  if (value === null || value === undefined) return "0";
+  const num = typeof value === "string" ? parseFloat(value) : value;
+  if (isNaN(num)) return "0";
+  if (num >= 1_000_000) {
+    const m = num / 1_000_000;
+    return `${m % 1 === 0 ? m.toFixed(0) : m.toFixed(1)}M`;
+  }
+  if (num >= 1_000) {
+    const k = num / 1_000;
+    return `${k % 1 === 0 ? k.toFixed(0) : k.toFixed(0)}K`;
+  }
+  return num.toLocaleString("fr-FR", { maximumFractionDigits: 0 });
+}
+
 export function formatFileSize(bytes: number): string {
   if (bytes === 0) return "0 o";
   const units = ["o", "Ko", "Mo", "Go"];

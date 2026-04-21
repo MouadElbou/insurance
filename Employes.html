@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AssurTrack - Collaborateurs</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container": "#e5eeff",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#002113",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "inverse-on-surface": "#eaf1ff",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#2563eb",
+                        "primary-fixed": "#dbe1ff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#00174b",
+                        "secondary-fixed-dim": "#4edea3",
+                        "tertiary-fixed": "#ffddb8",
+                        "on-tertiary-container": "#ffeedd",
+                        "secondary-container": "#6cf8bb",
+                        "background": "#f8f9ff",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c3c6d7",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#005236",
+                        "secondary": "#006c49",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "on-background": "#0b1c30",
+                        "surface": "#f8f9ff",
+                        "surface-bright": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-tertiary-fixed": "#2a1700",
+                        "surface-variant": "#d3e4fe",
+                        "inverse-primary": "#b4c5ff",
+                        "surface-dim": "#cbdbf5",
+                        "tertiary-container": "#996100",
+                        "outline": "#737686",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#434655",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-high": "#dce9ff",
+                        "on-primary-container": "#eeefff",
+                        "surface-tint": "#0053db",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#00714d",
+                        "primary": "#004ac6",
+                        "tertiary": "#784b00",
+                        "primary-fixed-dim": "#b4c5ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tabular-nums { font-variant-numeric: tabular-nums; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+        }
+        .signature-line {
+            width: 2px;
+            height: 100%;
+            background-color: #004ac6;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary-fixed">
+<aside class="fixed left-0 top-0 h-full flex flex-col bg-blue-50 dark:bg-slate-900 h-screen w-64 border-r-0 font-inter tracking-tight z-50">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-bold text-xl">
+<span class="material-symbols-outlined">shield</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tighter text-blue-900 dark:text-white">Courtage Pro</h1>
+<p class="text-[10px] uppercase tracking-widest text-blue-600 font-bold">Gestion d'Assurance</p>
+</div>
+</div>
+<nav class="flex-1 px-4 mt-6 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-blue-100/30 dark:hover:bg-slate-800/50 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Tableau de bord</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-blue-100/30 dark:hover:bg-slate-800/50 transition-colors" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-medium">Opérations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-blue-700 dark:text-blue-300 font-semibold border-l-2 border-blue-700 dark:border-blue-400 bg-blue-100/50 dark:bg-blue-900/20" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span class="font-medium">Collaborateurs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-blue-100/30 dark:hover:bg-slate-800/50 transition-colors" href="#">
+<span class="material-symbols-outlined">upload_file</span>
+<span class="font-medium">Imports</span>
+</a>
+</nav>
+<div class="p-4 border-t border-blue-100/15 dark:border-white/5 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Paramètres</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-red-600 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-medium">Déconnexion</span>
+</a>
+</div>
+</aside>
+<main class="ml-64 min-h-screen">
+<header class="sticky top-0 z-40 flex items-center justify-between px-8 w-full h-16 bg-white/85 dark:bg-slate-950/85 backdrop-blur-md border-b border-blue-100/15 dark:border-white/5 shadow-sm dark:shadow-none font-inter tabular-nums">
+<div class="flex items-center flex-1">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-slate-400" placeholder="Rechercher un collaborateur..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-all relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-all">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant/30 mx-2"></div>
+<button class="px-4 py-2 bg-gradient-to-br from-primary to-primary-container text-white rounded-lg font-semibold text-sm shadow-md shadow-primary/20 hover:shadow-lg transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                    Nouvelle Police
+                </button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest border border-outline-variant/20">
+<img alt="Avatar de l'utilisateur" class="w-full h-full object-cover" data-alt="professional corporate headshot of a business woman in a dark suit with a neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjcrZ8DqDOO5KUP5-ZCy1CH-R-L8cpHtsIxLoU1NRo2rk0L8EU-DpA8AvS3JK0VC1EHTXDaRnz3stvSM2dSZzuD_kS05Ly0BASFoKHd7i08_ul6-2sXvdQ0dVFJFOg8PUdgjyJK_s2lKX3zksR2PZBYXEHzSSSnxQ2OarHfs_uZNOo1TjAgRODg3Wz4Q4xG_Rae5lCs5X4LjmZH7TGfPIu8cptDR-tTiXuZVhCxRV5_zuVVIFBag3CuEfJRzr0EW57p9UUl3aOm6Q"/>
+</div>
+</div>
+</header>
+<div class="p-8 max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+<div>
+<nav class="flex items-center gap-2 text-xs font-medium text-slate-400 uppercase tracking-widest mb-2">
+<span>Équipe</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span class="text-primary">Collaborateurs</span>
+</nav>
+<h2 class="text-4xl font-extrabold tracking-tight text-on-surface">Collaborateurs</h2>
+<p class="text-on-surface-variant mt-1">Gérez les accès et suivez la performance de votre équipe de courtage.</p>
+</div>
+<button class="group px-6 py-3 bg-white border border-outline-variant/30 rounded-xl font-bold text-primary flex items-center gap-3 hover:bg-primary hover:text-white transition-all duration-300 shadow-sm">
+<span class="material-symbols-outlined transition-transform group-hover:rotate-90">person_add</span>
+                    Ajouter un Collaborateur
+                </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Employee Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-blue-900/5 group border border-transparent hover:border-primary/10">
+<div class="flex items-start justify-between mb-6">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-xl bg-primary-fixed text-primary flex items-center justify-center font-bold text-xl shadow-inner">
+                                AM
+                            </div>
+<div>
+<h3 class="font-bold text-lg text-on-surface">Ahmed Mansouri</h3>
+<p class="text-sm text-on-surface-variant">a.mansouri@assurtrack.ma</p>
+</div>
+</div>
+<span class="px-3 py-1 bg-secondary-container/30 text-on-secondary-container text-[10px] font-bold uppercase tracking-wider rounded-full">Manager</span>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-tighter mb-1">Polices Actives</p>
+<p class="text-xl font-bold tabular-nums">142</p>
+</div>
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-tighter mb-1">C.A. Généré</p>
+<p class="text-xl font-bold tabular-nums">2.4M <span class="text-xs font-medium opacity-60">MAD</span></p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex -space-x-2">
+<div class="w-7 h-7 rounded-full border-2 border-white bg-surface-container-highest"></div>
+<div class="w-7 h-7 rounded-full border-2 border-white bg-blue-200"></div>
+<div class="w-7 h-7 rounded-full border-2 border-white bg-blue-100 flex items-center justify-center text-[10px] font-bold text-blue-600">+4</div>
+</div>
+<button class="text-primary font-semibold text-sm flex items-center gap-1 hover:gap-2 transition-all">
+                            Voir Profil
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Employee Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-blue-900/5 group border border-transparent hover:border-primary/10">
+<div class="flex items-start justify-between mb-6">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-xl bg-tertiary-fixed text-tertiary flex items-center justify-center font-bold text-xl shadow-inner">
+                                SB
+                            </div>
+<div>
+<h3 class="font-bold text-lg text-on-surface">Sara Bennani</h3>
+<p class="text-sm text-on-surface-variant">s.bennani@assurtrack.ma</p>
+</div>
+</div>
+<span class="px-3 py-1 bg-surface-container-highest text-primary text-[10px] font-bold uppercase tracking-wider rounded-full">Collaborateur</span>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-tighter mb-1">Polices Actives</p>
+<p class="text-xl font-bold tabular-nums">89</p>
+</div>
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-tighter mb-1">C.A. Généré</p>
+<p class="text-xl font-bold tabular-nums">1.1M <span class="text-xs font-medium opacity-60">MAD</span></p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex -space-x-2">
+<div class="w-7 h-7 rounded-full border-2 border-white bg-surface-container-highest"></div>
+<div class="w-7 h-7 rounded-full border-2 border-white bg-blue-200"></div>
+</div>
+<button class="text-primary font-semibold text-sm flex items-center gap-1 hover:gap-2 transition-all">
+                            Voir Profil
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Employee Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-blue-900/5 group border border-transparent hover:border-primary/10">
+<div class="flex items-start justify-between mb-6">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-xl bg-secondary-fixed text-secondary flex items-center justify-center font-bold text-xl shadow-inner">
+                                YZ
+                            </div>
+<div>
+<h3 class="font-bold text-lg text-on-surface">Youssef Ziane</h3>
+<p class="text-sm text-on-surface-variant">y.ziane@assurtrack.ma</p>
+</div>
+</div>
+<span class="px-3 py-1 bg-surface-container-highest text-primary text-[10px] font-bold uppercase tracking-wider rounded-full">Collaborateur</span>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-tighter mb-1">Polices Actives</p>
+<p class="text-xl font-bold tabular-nums">56</p>
+</div>
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-tighter mb-1">C.A. Généré</p>
+<p class="text-xl font-bold tabular-nums">780K <span class="text-xs font-medium opacity-60">MAD</span></p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex -space-x-2">
+<div class="w-7 h-7 rounded-full border-2 border-white bg-surface-container-highest"></div>
+</div>
+<button class="text-primary font-semibold text-sm flex items-center gap-1 hover:gap-2 transition-all">
+                            Voir Profil
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Management Insights Section (Asymmetric) -->
+<div class="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 bg-surface-container-low rounded-2xl p-8 border border-outline-variant/10 overflow-hidden relative">
+<div class="relative z-10">
+<h3 class="text-2xl font-bold tracking-tight mb-6">Performance de l'Équipe</h3>
+<div class="flex items-end gap-1 h-48 mb-6">
+<div class="flex-1 bg-primary/20 rounded-t-lg transition-all hover:bg-primary/40 group relative" style="height: 65%;">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-on-surface text-white px-2 py-1 rounded text-[10px] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Jan: 1.2M</div>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t-lg transition-all hover:bg-primary/40 group relative" style="height: 45%;"></div>
+<div class="flex-1 bg-primary/20 rounded-t-lg transition-all hover:bg-primary/40 group relative" style="height: 85%;"></div>
+<div class="flex-1 bg-primary/20 rounded-t-lg transition-all hover:bg-primary/40 group relative" style="height: 55%;"></div>
+<div class="flex-1 bg-primary/20 rounded-t-lg transition-all hover:bg-primary/40 group relative" style="height: 95%;"></div>
+<div class="flex-1 bg-primary rounded-t-lg transition-all hover:bg-primary-container group relative" style="height: 75%;">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-on-surface text-white px-2 py-1 rounded text-[10px] opacity-100 transition-opacity whitespace-nowrap">Juin: 4.8M</div>
+</div>
+</div>
+<div class="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+<span>Jan</span><span>Fév</span><span>Mar</span><span>Avr</span><span>Mai</span><span>Juin</span>
+</div>
+</div>
+<!-- Decorative architectural element -->
+<div class="absolute -bottom-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+</div>
+<div class="lg:col-span-1 glass-card border border-white/50 rounded-2xl p-8 shadow-sm">
+<h3 class="text-xl font-bold tracking-tight mb-6">Dernières Activités</h3>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="w-1 bg-secondary rounded-full"></div>
+<div>
+<p class="text-sm font-bold text-on-surface">Nouvelle Police Validée</p>
+<p class="text-xs text-on-surface-variant">Par Ahmed M. • Il y a 12 min</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-1 bg-tertiary rounded-full"></div>
+<div>
+<p class="text-sm font-bold text-on-surface">Modification de Profil</p>
+<p class="text-xs text-on-surface-variant">Sara B. a mis à jour ses accès</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-1 bg-primary rounded-full"></div>
+<div>
+<p class="text-sm font-bold text-on-surface">Objectif Mensuel Atteint</p>
+<p class="text-xs text-on-surface-variant">Équipe Commerciale • +15% vs Mai</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-8 py-3 border border-outline-variant/30 rounded-xl text-sm font-bold hover:bg-slate-50 transition-colors">
+                        Journal complet
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB - Restricted to Management Actions -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full shadow-2xl shadow-primary/40 flex items-center justify-center hover:scale-105 transition-transform group">
+<span class="material-symbols-outlined">support_agent</span>
+<span class="absolute right-full mr-4 px-3 py-1 bg-on-surface text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Support Équipe</span>
+</button>
+</body></html>

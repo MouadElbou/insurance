@@ -9,6 +9,7 @@ interface KpiCardProps {
   icon: LucideIcon;
   isCurrency?: boolean;
   trend?: string;
+  iconBg?: string;
   className?: string;
   staggerIndex?: number;
   isLoading?: boolean;
@@ -20,6 +21,7 @@ export function KpiCard({
   icon: Icon,
   isCurrency = false,
   trend,
+  iconBg = "bg-primary/10 text-primary",
   className,
   staggerIndex = 0,
   isLoading = false,
@@ -28,53 +30,67 @@ export function KpiCard({
     return (
       <div
         className={cn(
-          "rounded-xl border bg-card p-5 space-y-3",
+          "bg-surface-container-lowest rounded-xl p-6 space-y-4",
           className,
         )}
       >
-        <div className="flex items-center justify-between">
-          <Skeleton className="h-4 w-24" />
-          <Skeleton className="h-8 w-8 rounded-lg" />
+        <div className="flex justify-between items-start">
+          <Skeleton className="h-10 w-10 rounded-lg" />
+          <Skeleton className="h-5 w-14 rounded-full" />
         </div>
-        <Skeleton className="h-7 w-32" />
-        {trend !== undefined && <Skeleton className="h-3 w-20" />}
+        <div>
+          <Skeleton className="h-3 w-24 mb-2" />
+          <Skeleton className="h-7 w-32" />
+        </div>
       </div>
     );
   }
 
   const displayValue = isCurrency ? formatCurrency(value) : String(value);
   const delayClass = `stagger-${staggerIndex + 1}`;
+  const isNegative = trend?.startsWith("-");
 
   return (
     <div
       className={cn(
-        "rounded-xl border bg-card p-5 transition-all duration-300",
-        "hover:shadow-md hover:border-primary/20 hover:-translate-y-0.5",
+        "bg-surface-container-lowest rounded-xl p-6 space-y-4 transition-all duration-300",
+        "hover:-translate-y-0.5",
         "animate-slide-up opacity-0",
         delayClass,
         className,
       )}
       style={{ animationFillMode: "forwards" }}
     >
-      <div className="flex items-center justify-between mb-3">
-        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+      <div className="flex justify-between items-start">
+        <div className={cn("p-2 rounded-lg", iconBg)}>
+          <Icon className="h-6 w-6" strokeWidth={1.75} />
+        </div>
+        {trend && (
+          <span
+            className={cn(
+              "text-xs font-bold px-2 py-1 rounded-full",
+              isNegative
+                ? "text-error bg-error-container/20"
+                : "text-secondary bg-secondary-container/20",
+            )}
+          >
+            {trend}
+          </span>
+        )}
+      </div>
+      <div>
+        <p className="text-xs font-bold text-outline uppercase tracking-wider">
           {label}
         </p>
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/8">
-          <Icon className="h-4.5 w-4.5 text-primary" strokeWidth={1.75} />
-        </div>
+        <h3
+          className={cn(
+            "text-2xl font-extrabold text-on-surface",
+            isCurrency && "tabular-nums",
+          )}
+        >
+          {displayValue}
+        </h3>
       </div>
-      <p
-        className={cn(
-          "text-2xl font-bold tracking-tight",
-          isCurrency && "font-mono tabular-nums",
-        )}
-      >
-        {displayValue}
-      </p>
-      {trend && (
-        <p className="text-xs text-muted-foreground mt-1.5">{trend}</p>
-      )}
     </div>
   );
 }

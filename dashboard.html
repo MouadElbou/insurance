@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Courtage Pro - Tableau de bord</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container": "#e5eeff",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed": "#002113",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "inverse-on-surface": "#eaf1ff",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#2563eb",
+                    "primary-fixed": "#dbe1ff",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed": "#00174b",
+                    "secondary-fixed-dim": "#4edea3",
+                    "tertiary-fixed": "#ffddb8",
+                    "on-tertiary-container": "#ffeedd",
+                    "secondary-container": "#6cf8bb",
+                    "background": "#f8f9ff",
+                    "error": "#ba1a1a",
+                    "outline-variant": "#c3c6d7",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed-variant": "#005236",
+                    "secondary": "#006c49",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#213145",
+                    "on-background": "#0b1c30",
+                    "surface": "#f8f9ff",
+                    "surface-bright": "#f8f9ff",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-tertiary-fixed": "#2a1700",
+                    "surface-variant": "#d3e4fe",
+                    "inverse-primary": "#b4c5ff",
+                    "surface-dim": "#cbdbf5",
+                    "tertiary-container": "#996100",
+                    "outline": "#737686",
+                    "secondary-fixed": "#6ffbbe",
+                    "on-primary": "#ffffff",
+                    "on-surface-variant": "#434655",
+                    "surface-container-low": "#eff4ff",
+                    "surface-container-high": "#dce9ff",
+                    "on-primary-container": "#eeefff",
+                    "surface-tint": "#0053db",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#00714d",
+                    "primary": "#004ac6",
+                    "tertiary": "#784b00",
+                    "primary-fixed-dim": "#b4c5ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tabular-nums { font-variant-numeric: tabular-nums; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full flex flex-col bg-blue-50 dark:bg-slate-900 h-screen w-64 border-r-0 border-r border-blue-100/15 dark:border-white/5 font-inter tracking-tight z-50">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tighter text-blue-900 dark:text-white">Courtage Pro</h1>
+<p class="text-[10px] uppercase tracking-[0.1em] text-blue-700/60 font-bold">Gestion d'Assurance</p>
+</div>
+</div>
+<nav class="flex-1 mt-6 px-3 space-y-1">
+<!-- Active: Tableau de bord -->
+<a class="flex items-center gap-3 px-4 py-3 text-blue-700 dark:text-blue-300 font-semibold border-l-2 border-blue-700 dark:border-blue-400 bg-blue-100/50 dark:bg-blue-900/20 transition-colors scale-98 duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Tableau de bord</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-blue-100/30 dark:hover:bg-slate-800/50 transition-colors scale-98 duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span>Opérations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-blue-100/30 dark:hover:bg-slate-800/50 transition-colors scale-98 duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span>Collaborateurs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-blue-100/30 dark:hover:bg-slate-800/50 transition-colors scale-98 duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+<span>Imports</span>
+</a>
+</nav>
+<div class="p-3 border-t border-blue-100/20 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Paramètres</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-error/80 hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Déconnexion</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen pb-12 overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-40 flex items-center justify-between px-8 w-full bg-white/85 dark:bg-slate-950/85 backdrop-blur-md h-16 shadow-sm dark:shadow-none font-inter tabular-nums">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary/20 text-sm transition-all placeholder:text-outline" placeholder="Rechercher une police, un client..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 pr-4 border-r border-outline-variant/30">
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-all">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-white px-5 py-2 rounded-lg text-sm font-semibold shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>Nouvelle Police</span>
+</button>
+<div class="w-9 h-9 rounded-full bg-surface-container-highest overflow-hidden cursor-pointer border-2 border-white">
+<img alt="Avatar de l'utilisateur" class="w-full h-full object-cover" data-alt="professional male financial manager headshot with blurred office background neutral lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2Tl2sqiwFJYY9gzKmlwhdRdOxsi4jwQXCi8QykD16FuRdeQmo2qgAWDYdRga_HgHnzvmiE1ooRXNcuiXCAScVvJGsh4HFqQGDhDV71qcYeqhkDumoAt2DCofDzQaSEehfrdvmfNiiiqqSqpb7lMkI1LIac-h2-DrF3dVSvA7penFJzITxBr6rkw0wbzFaV2ECZGfj5qtphEe5L5lMIug2hUK2NLk5OZ9yErY2-JV-P2iHdZ_ttE5oc1nLE5Kd9xL6JMbiyzUbE8s"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="px-8 pt-8 max-w-7xl mx-auto space-y-8">
+<!-- Page Title & Filters -->
+<div class="flex items-end justify-between">
+<div class="space-y-1">
+<h2 class="text-3xl font-extrabold tracking-tight text-on-surface">Tableau de bord</h2>
+<p class="text-sm text-on-surface-variant font-medium">Analyse des performances du cabinet</p>
+</div>
+<div class="bg-surface-container-low p-1 rounded-xl flex gap-1">
+<button class="px-4 py-2 text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Aujourd'hui</button>
+<button class="px-4 py-2 text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Cette semaine</button>
+<button class="px-4 py-2 text-sm font-semibold text-primary bg-surface-container-lowest shadow-sm rounded-lg">Ce mois</button>
+</div>
+</div>
+<!-- KPI Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-xl space-y-4">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-primary/10 text-primary rounded-lg">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<span class="text-secondary text-xs font-bold bg-secondary-container/20 px-2 py-1 rounded-full">+12.5%</span>
+</div>
+<div>
+<p class="text-xs font-bold text-outline uppercase tracking-wider">Prime totale</p>
+<h3 class="text-2xl font-extrabold tabular-nums text-on-surface">1 245 000,00 <span class="text-sm font-semibold">MAD</span></h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl space-y-4">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-tertiary/10 text-tertiary rounded-lg">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<span class="text-secondary text-xs font-bold bg-secondary-container/20 px-2 py-1 rounded-full">+8.2%</span>
+</div>
+<div>
+<p class="text-xs font-bold text-outline uppercase tracking-wider">Commissions</p>
+<h3 class="text-2xl font-extrabold tabular-nums text-on-surface">185 400,00 <span class="text-sm font-semibold">MAD</span></h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl space-y-4">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-secondary/10 text-secondary rounded-lg">
+<span class="material-symbols-outlined">swap_horiz</span>
+</div>
+<span class="text-error text-xs font-bold bg-error-container/20 px-2 py-1 rounded-full">-2.4%</span>
+</div>
+<div>
+<p class="text-xs font-bold text-outline uppercase tracking-wider">Opérations</p>
+<h3 class="text-2xl font-extrabold tabular-nums text-on-surface">432</h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl space-y-4">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-surface-container-highest text-primary rounded-lg">
+<span class="material-symbols-outlined">description</span>
+</div>
+<span class="text-secondary text-xs font-bold bg-secondary-container/20 px-2 py-1 rounded-full">+15%</span>
+</div>
+<div>
+<p class="text-xs font-bold text-outline uppercase tracking-wider">Polices Actives</p>
+<h3 class="text-2xl font-extrabold tabular-nums text-on-surface">389</h3>
+</div>
+</div>
+</div>
+<!-- Main Charts Row (Asymmetric) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Revenue Trend (2/3) -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h4 class="text-lg font-bold text-on-surface">Évolution du chiffre d'affaires</h4>
+<p class="text-sm text-outline font-medium">Tendance des 6 derniers mois</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-xs font-semibold text-outline">Primes</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-surface-container-highest"></span>
+<span class="text-xs font-semibold text-outline">Précédent</span>
+</div>
+</div>
+</div>
+<!-- Mock Area Chart -->
+<div class="relative h-[280px] w-full flex items-end justify-between gap-1">
+<div class="flex-1 bg-surface-container-low h-[40%] rounded-t-lg relative group transition-all hover:bg-primary-fixed cursor-pointer">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">820k</div>
+</div>
+<div class="flex-1 bg-surface-container-low h-[60%] rounded-t-lg relative group transition-all hover:bg-primary-fixed cursor-pointer"></div>
+<div class="flex-1 bg-surface-container-low h-[55%] rounded-t-lg relative group transition-all hover:bg-primary-fixed cursor-pointer"></div>
+<div class="flex-1 bg-primary h-[85%] rounded-t-lg relative group transition-all hover:bg-primary-container cursor-pointer">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">1.2M</div>
+</div>
+<div class="flex-1 bg-primary h-[70%] rounded-t-lg relative group transition-all hover:bg-primary-container cursor-pointer"></div>
+<div class="flex-1 bg-primary h-[95%] rounded-t-lg relative group transition-all hover:bg-primary-container cursor-pointer"></div>
+<!-- Chart Labels -->
+<div class="absolute -bottom-6 left-0 w-full flex justify-between text-[10px] font-bold text-outline uppercase tracking-widest">
+<span>Jan</span><span>Fév</span><span>Mar</span><span>Avr</span><span>Mai</span><span>Juin</span>
+</div>
+</div>
+</div>
+<!-- Top Employees (1/3) -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm flex flex-col">
+<div class="mb-8">
+<h4 class="text-lg font-bold text-on-surface">Top Collaborateurs</h4>
+<p class="text-sm text-outline font-medium">Par volume de commissions</p>
+</div>
+<div class="flex-1 space-y-6">
+<!-- Employee Row 1 -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-sm font-bold">
+<span>Amina Mansouri</span>
+<span class="tabular-nums">42 000 MAD</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="w-[90%] h-full bg-primary rounded-full"></div>
+</div>
+</div>
+<!-- Employee Row 2 -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-sm font-bold">
+<span>Karim Bennani</span>
+<span class="tabular-nums">38 500 MAD</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="w-[82%] h-full bg-primary rounded-full"></div>
+</div>
+</div>
+<!-- Employee Row 3 -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-sm font-bold">
+<span>Youssef Tazi</span>
+<span class="tabular-nums">31 200 MAD</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="w-[65%] h-full bg-primary rounded-full"></div>
+</div>
+</div>
+<!-- Employee Row 4 -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-sm font-bold">
+<span>Sanaa Filali</span>
+<span class="tabular-nums">22 800 MAD</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="w-[45%] h-full bg-primary rounded-full"></div>
+</div>
+</div>
+</div>
+<button class="mt-6 text-primary text-xs font-bold uppercase tracking-widest hover:underline text-center w-full">Voir tout le classement</button>
+</div>
+</div>
+<!-- Second Grid Row -->
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+<!-- Production vs Emission (Donut-ish) -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+<h4 class="text-sm font-bold text-outline mb-6 uppercase tracking-widest">Production vs Émission</h4>
+<div class="flex items-center justify-center py-6">
+<div class="relative w-32 h-32">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-primary" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="100" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-xl font-extrabold tabular-nums">72%</span>
+<span class="text-[8px] font-bold text-outline">RECYCLÉ</span>
+</div>
+</div>
+</div>
+<div class="space-y-3 mt-4">
+<div class="flex items-center justify-between text-xs">
+<span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary"></span> Production</span>
+<span class="font-bold">896k MAD</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-surface-container"></span> Émission</span>
+<span class="font-bold">349k MAD</span>
+</div>
+</div>
+</div>
+<!-- Sources Breakdown -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+<h4 class="text-sm font-bold text-outline mb-6 uppercase tracking-widest">Sources des données</h4>
+<div class="space-y-6">
+<div class="flex items-end gap-2 h-24">
+<div class="flex-1 bg-primary/80 rounded-t h-full group relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[9px] font-bold opacity-0 group-hover:opacity-100">45%</div>
+</div>
+<div class="flex-1 bg-primary/60 rounded-t h-[30%] group relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[9px] font-bold opacity-0 group-hover:opacity-100">15%</div>
+</div>
+<div class="flex-1 bg-primary/40 rounded-t h-[60%] group relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[9px] font-bold opacity-0 group-hover:opacity-100">40%</div>
+</div>
+</div>
+<div class="grid grid-cols-3 text-[9px] font-extrabold text-outline uppercase text-center">
+<span>Excel</span><span>Manuel</span><span>Scraper</span>
+</div>
+</div>
+</div>
+<!-- Recent Activity (Spans 2 cols) -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col">
+<div class="p-6 border-b border-outline-variant/15 flex items-center justify-between">
+<h4 class="text-sm font-bold text-outline uppercase tracking-widest">Activités Récentes</h4>
+<button class="p-1 hover:bg-surface-container rounded-md"><span class="material-symbols-outlined text-sm">more_vert</span></button>
+</div>
+<div class="flex-1 overflow-y-auto no-scrollbar max-h-[280px]">
+<!-- Activity 1 -->
+<div class="px-6 py-4 flex items-start gap-4 hover:bg-surface-container-low transition-colors">
+<div class="mt-1 w-8 h-8 rounded-full bg-secondary-container/20 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h5 class="text-sm font-bold">Police #77432 validée</h5>
+<span class="text-[10px] text-outline font-medium">Il y a 2 min</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1">Amina M. a validé un contrat automobile (Wafa Assurance).</p>
+<div class="flex gap-2 mt-2">
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[9px] font-bold rounded uppercase">Validé</span>
+<span class="px-2 py-0.5 bg-surface-container text-outline text-[9px] font-bold rounded uppercase">Scraper</span>
+</div>
+</div>
+</div>
+<!-- Activity 2 -->
+<div class="px-6 py-4 flex items-start gap-4 hover:bg-surface-container-low transition-colors">
+<div class="mt-1 w-8 h-8 rounded-full bg-tertiary-container/20 text-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">pending</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h5 class="text-sm font-bold">Import Manuel en attente</h5>
+<span class="text-[10px] text-outline font-medium">Il y a 14 min</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1">Karim B. a initié l'import de 12 quittances.</p>
+<div class="flex gap-2 mt-2">
+<span class="px-2 py-0.5 bg-tertiary-container text-on-tertiary-container text-[9px] font-bold rounded uppercase">En attente</span>
+<span class="px-2 py-0.5 bg-surface-container text-outline text-[9px] font-bold rounded uppercase">Manuel</span>
+</div>
+</div>
+</div>
+<!-- Activity 3 -->
+<div class="px-6 py-4 flex items-start gap-4 hover:bg-surface-container-low transition-colors">
+<div class="mt-1 w-8 h-8 rounded-full bg-error-container/20 text-error flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">report</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h5 class="text-sm font-bold">Erreur de scraping</h5>
+<span class="text-[10px] text-outline font-medium">Il y a 45 min</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1">Échec de synchronisation avec le portail AXA.</p>
+<div class="flex gap-2 mt-2">
+<span class="px-2 py-0.5 bg-error-container text-on-error-container text-[9px] font-bold rounded uppercase">Retard</span>
+<span class="px-2 py-0.5 bg-surface-container text-outline text-[9px] font-bold rounded uppercase">Système</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Section: Presence & Volume Chart -->
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+<!-- Daily Volume (Spans 3) -->
+<div class="lg:col-span-3 bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h4 class="text-sm font-bold text-outline uppercase tracking-widest">Volume quotidien (30j)</h4>
+<span class="text-xs font-bold text-primary">Moyenne: 14 opérations/jour</span>
+</div>
+<div class="flex items-end gap-[2px] h-32">
+<!-- Generative bar chart 30 bars -->
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[30%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[45%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[20%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[60%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[35%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[80%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[50%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[40%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[55%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[30%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[25%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[90%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[15%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[45%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[60%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[75%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[50%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[40%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[85%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[30%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[55%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[65%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[40%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[20%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[100%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[45%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[60%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[35%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[70%] transition-all rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary h-[55%] transition-all rounded-t-sm"></div>
+</div>
+</div>
+<!-- Presence Panel -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+<h4 class="text-sm font-bold text-outline mb-6 uppercase tracking-widest">Équipe en ligne</h4>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="close-up portrait of young professional woman with smiling expression against neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMv_bSJdB3l38Eln9u_Fj4YOQjuyG9EKKP_57g_9jcrVXRcjzEXN49sM5DzbO-YoHi0bv4Mf4bjkdG7blkA6wZ-M9qR-Tr3FB4bvzYA7XeN1X-nrfX2Rxb7mC2dmkqoWp8RlF5-9ClAk2ztvKmWpi6YiwpU7w1G1lBv8j0_Xw4U8XVpUzynV9CksMm9kYTVKVBaT-FCeuWeYoKQjSiic16G7Y9avD3__dqeT6j9OnQ-wAM60PbsZ1XNzIIIhH-oIWd9bk-NvoHbaM"/>
+<span class="absolute bottom-0 right-0 w-2 h-2 bg-secondary border border-white rounded-full"></span>
+</div>
+<div>
+<p class="text-xs font-bold">Amina Mansouri</p>
+<p class="text-[9px] text-outline font-medium">Gestionnaire Senior</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="professional middle-aged man with beard smiling warmly in corporate office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYK1dV6c3i9B1cQvlJ8xtZHWqtdVS7_RmEhWHIlj2qcd2_ohiq5VRrByhr3GS1l9JhVIim8aJanhzJ0Haf_afVkgh8yhzVQbdCxHAFhRzOZi7ssQ5VfxU4UfcpVEv-YTeV7ijxX4EUNBXD2AMsYQ5LCCe_kTvx5fqYzH7m8Nwp5PJnFGrBhnHXbFEIfWs-UJ2-kR-8NoqVCGsfgmjj_yANCBHfI1gzz-1CNezapCaQeOcn5lIJSqoUtKk-MUGoDHgZOgbDRkSOz_8"/>
+<span class="absolute bottom-0 right-0 w-2 h-2 bg-secondary border border-white rounded-full"></span>
+</div>
+<div>
+<p class="text-xs font-bold">Karim Bennani</p>
+<p class="text-[9px] text-outline font-medium">Support Client</p>
+</div>
+</div>
+<div class="flex items-center gap-3 opacity-60">
+<div class="relative">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="man in business suit looking focused while working on laptop in bright office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUIHHpEh7hNvhARBqgJu-DWAb3yoMTgo2wKFz0hdSww5N1NH1Vw4Im83db325kaAFM4ASHuOSZ9bhhxLyx8uLNzNWztITsK_ee9xXkFmNj-_QXY9yt-r0M24bHynS1gI9kkz7bofge5oCXNJ2uuwUKp5km2S38Bfso9mF870V3mTiUbSQ5w0f72qCfOhpX2RKzL08oeA_dyjPXLyzdkAT0cAxVB993dOuSqtcBkF1ga3FpGPpRw0csxmhNqYLPncFNV4ERcwu09A8"/>
+<span class="absolute bottom-0 right-0 w-2 h-2 bg-outline border border-white rounded-full"></span>
+</div>
+<div>
+<p class="text-xs font-bold">Youssef Tazi</p>
+<p class="text-[9px] text-outline font-medium">Hors ligne</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

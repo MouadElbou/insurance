@@ -29,3 +29,11 @@ export async function presenceHandler(
   const presence = await dashboardService.getPresence(request.server.prisma);
   return reply.code(200).send({ success: true, data: presence });
 }
+
+export async function chartsHandler(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
+  const charts = await dashboardService.getCharts(request.server.prisma);
+  return reply.code(200).send({ success: true, data: charts });
+}

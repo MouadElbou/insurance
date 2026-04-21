@@ -1,11 +1,12 @@
 import { useOperations } from "@/hooks/useOperations";
-import { useEmployees } from "@/hooks/useEmployees";
+import { useOperationStats } from "@/hooks/useOperationStats";
+import { OperationStatsCards } from "@/components/operations/OperationStatsCards";
 import { OperationsFilters } from "@/components/operations/OperationsFilters";
 import { OperationsTable } from "@/components/operations/OperationsTable";
 import { OperationDetailPanel } from "@/components/operations/OperationDetailPanel";
 import { ExportButton } from "@/components/operations/ExportButton";
 import { useOperationsStore } from "@/stores/operations.store";
-import { FileText } from "lucide-react";
+import { Download, PlusCircle } from "lucide-react";
 
 export function OperationsPage() {
   const {
@@ -15,8 +16,7 @@ export function OperationsPage() {
     isLoading,
     selectOperation,
   } = useOperations();
-  // Load employees for filter dropdown
-  useEmployees();
+  const { stats, isLoading: statsLoading } = useOperationStats();
 
   const setFilters = useOperationsStore((s) => s.setFilters);
 
@@ -25,33 +25,30 @@ export function OperationsPage() {
   };
 
   return (
-    <div className="p-6 space-y-6 animate-fade-in">
-      {/* Page header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="rounded-lg bg-primary/10 p-2">
-            <FileText className="h-5 w-5 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Operations</h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
-              {pagination.total_items > 0 ? (
-                <>
-                  <span className="tabular-nums font-medium text-foreground">
-                    {pagination.total_items}
-                  </span>{" "}
-                  operation{pagination.total_items !== 1 ? "s" : ""} au total
-                </>
-              ) : (
-                "Gerez vos operations de courtage"
-              )}
-            </p>
-          </div>
+    <div className="p-8 space-y-8 animate-fade-in">
+      {/* Page Header */}
+      <div className="flex items-end justify-between">
+        <div>
+          <h2 className="text-3xl font-extrabold tracking-tight text-on-surface">
+            Registre des Opérations
+          </h2>
+          <p className="text-on-surface-variant text-sm mt-1">
+            Gérez et suivez l'ensemble de votre production d'assurance.
+          </p>
         </div>
-        <ExportButton />
+        <div className="flex gap-2">
+          <ExportButton />
+          <button className="px-4 py-2 bg-primary text-white text-sm font-semibold rounded-xl hover:opacity-90 transition-all flex items-center gap-2">
+            <PlusCircle className="h-4 w-4" />
+            Nouvelle Opération
+          </button>
+        </div>
       </div>
 
-      {/* Filters */}
+      {/* KPI Stat Cards */}
+      <OperationStatsCards stats={stats} isLoading={statsLoading} />
+
+      {/* Filter Bar */}
       <OperationsFilters />
 
       {/* Table */}
@@ -62,6 +59,27 @@ export function OperationsPage() {
         onPageChange={handlePageChange}
         onRowClick={(op) => selectOperation(op)}
       />
+
+      {/* Footer Meta Info */}
+      <div className="flex items-center justify-between pt-4 opacity-60">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-secondary" />
+            <span className="text-[10px] font-bold uppercase tracking-widest">
+              Connecté au Web-Scraper (Live)
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-outline" />
+            <span className="text-[10px] font-bold uppercase tracking-widest">
+              Dernier Import: Aujourd&apos;hui, 09:42
+            </span>
+          </div>
+        </div>
+        <div className="text-[10px] font-bold uppercase tracking-widest">
+          Version v2.4.1 Build 20231015
+        </div>
+      </div>
 
       {/* Detail panel */}
       <OperationDetailPanel

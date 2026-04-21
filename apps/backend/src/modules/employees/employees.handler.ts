@@ -86,6 +86,24 @@ export async function statsHandler(
   return reply.code(200).send({ success: true, data: stats });
 }
 
+export async function bulkStatsHandler(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
+  const employees = await employeesService.list(request.server.prisma, { is_active: true, per_page: 100 });
+  const ids = employees.items.map((e: { id: string }) => e.id);
+
+  const statsMap: Record<string, any> = {};
+  await Promise.all(
+    ids.map(async (id: string) => {
+      const stats = await operationsService.getStats(request.server.prisma, { employee_id: id });
+      statsMap[id] = stats;
+    }),
+  );
+
+  return reply.code(200).send({ success: true, data: statsMap });
+}
+
 export async function createHandler(
   request: FastifyRequest<{ Body: CreateEmployeeRequest }>,
   reply: FastifyReply,

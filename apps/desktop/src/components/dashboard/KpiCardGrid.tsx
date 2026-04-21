@@ -1,84 +1,63 @@
 import type { KpiData } from "@insurance/shared";
 import { KpiCard } from "./KpiCard";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Banknote,
-  TrendingUp,
+  Landmark,
+  ArrowLeftRight,
   FileText,
-  ClipboardCheck,
 } from "lucide-react";
-import { useState } from "react";
+
+type Period = "today" | "week" | "month";
 
 interface KpiCardGridProps {
   kpis: KpiData | null;
   isLoading: boolean;
+  period: Period;
 }
 
-type Period = "today" | "week" | "month";
-
-const periodLabels: Record<Period, string> = {
-  today: "Aujourd'hui",
-  week: "Cette semaine",
-  month: "Ce mois",
-};
-
-export function KpiCardGrid({ kpis, isLoading }: KpiCardGridProps) {
-  const [period, setPeriod] = useState<Period>("today");
-
+export function KpiCardGrid({ kpis, isLoading, period }: KpiCardGridProps) {
   const data = kpis ? kpis[period] : null;
 
   return (
-    <div className="space-y-4">
-      <Tabs
-        value={period}
-        onValueChange={(v) => setPeriod(v as Period)}
-        className="w-fit"
-      >
-        <TabsList className="h-8">
-          {(Object.keys(periodLabels) as Period[]).map((key) => (
-            <TabsTrigger
-              key={key}
-              value={key}
-              className="text-xs px-3 h-7"
-            >
-              {periodLabels[key]}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard
-          label="Prime totale"
-          value={data?.total_prime ?? 0}
-          icon={Banknote}
-          isCurrency
-          isLoading={isLoading}
-          staggerIndex={0}
-        />
-        <KpiCard
-          label="Commissions"
-          value={data?.total_commission ?? 0}
-          icon={TrendingUp}
-          isCurrency
-          isLoading={isLoading}
-          staggerIndex={1}
-        />
-        <KpiCard
-          label="Operations"
-          value={data?.operations_count ?? 0}
-          icon={FileText}
-          isLoading={isLoading}
-          staggerIndex={2}
-        />
-        <KpiCard
-          label="Polices"
-          value={data?.policies_count ?? 0}
-          icon={ClipboardCheck}
-          isLoading={isLoading}
-          staggerIndex={3}
-        />
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <KpiCard
+        label="Prime totale"
+        value={data?.total_prime ?? 0}
+        icon={Banknote}
+        isCurrency
+        trend="+12.5%"
+        iconBg="bg-primary/10 text-primary"
+        isLoading={isLoading}
+        staggerIndex={0}
+      />
+      <KpiCard
+        label="Commissions"
+        value={data?.total_commission ?? 0}
+        icon={Landmark}
+        isCurrency
+        trend="+8.2%"
+        iconBg="bg-tertiary/10 text-tertiary"
+        isLoading={isLoading}
+        staggerIndex={1}
+      />
+      <KpiCard
+        label="Opérations"
+        value={data?.operations_count ?? 0}
+        icon={ArrowLeftRight}
+        trend="-2.4%"
+        iconBg="bg-secondary/10 text-secondary"
+        isLoading={isLoading}
+        staggerIndex={2}
+      />
+      <KpiCard
+        label="Polices Actives"
+        value={data?.policies_count ?? 0}
+        icon={FileText}
+        trend="+15%"
+        iconBg="bg-surface-container-highest text-primary"
+        isLoading={isLoading}
+        staggerIndex={3}
+      />
     </div>
   );
 }

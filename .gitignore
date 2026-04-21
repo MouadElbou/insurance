@@ -11,6 +11,12 @@ dist-electron/
 .env
 .env.local
 .env.test
+.env.*.local
+**/.env.*.local
+
+# Encrypted token store (safeStorage-backed JWT — scraper feature)
+tokens.dat
+**/tokens.dat
 
 # Logs
 *.log
@@ -47,3 +53,12 @@ release/
 
 # Docker volumes (local dev)
 pgdata/
+
+# Claude Code local state
+.claude/
+
+# MCP server state
+.playwright-mcp/
+
+# Dev debug screenshots (keep root clean; check in intentional artifacts elsewhere)
+/*.png

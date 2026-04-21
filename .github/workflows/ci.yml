@@ -164,7 +164,9 @@ jobs:
             packages/*/node_modules
           key: deps-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
-      - run: pnpm audit --audit-level=high
+      # Mirrors the `audit:prod` script — production dependency graph only.
+      # Transient dev-tool vulnerabilities should not fail CI.
+      - run: pnpm audit --prod --audit-level=high
         continue-on-error: true
 
   # ─── Build ───────────────────────────────────────────────────────

@@ -11,6 +11,7 @@ import socketIoPlugin from "./plugins/socket-io.js";
 
 // Services
 import { cleanExpiredTokens } from "./modules/auth/auth.service.js";
+import { purgeExpiredEvents } from "./modules/scraper/scraper.service.js";
 
 // Route modules
 import authRoutes from "./modules/auth/auth.routes.js";
@@ -18,6 +19,7 @@ import employeesRoutes from "./modules/employees/employees.routes.js";
 import operationsRoutes from "./modules/operations/operations.routes.js";
 import uploadsRoutes from "./modules/uploads/uploads.routes.js";
 import dashboardRoutes from "./modules/dashboard/dashboard.routes.js";
+import scraperRoutes from "./modules/scraper/scraper.routes.js";
 
 // Type augmentations (side-effect import — loads FastifyInstance & FastifyRequest overrides)
 import "./types.js";
@@ -76,6 +78,7 @@ export async function buildApp() {
       await api.register(operationsRoutes, { prefix: "/operations" });
       await api.register(uploadsRoutes, { prefix: "/uploads" });
       await api.register(dashboardRoutes, { prefix: "/dashboard" });
+      await api.register(scraperRoutes, { prefix: "/scraper" });
     },
     { prefix: "/api/v1" },
   );
@@ -95,9 +98,38 @@ export async function buildApp() {
       }
     }, CLEANUP_INTERVAL_MS);
 
+    // Purge scraper events older than retention window.
+    // Runs once at startup then every 24 hours. Keeps the DB from
+    // accumulating raw HTTP captures indefinitely. Errors are logged
+    // but never thrown — retention is best-effort background housekeeping.
+    const SCRAPER_RETENTION_INTERVAL_MS = 24 * 60 * 60 * 1000;
+    const runScraperRetention = async () => {
+      try {
+        const count = await purgeExpiredEvents(
+          app.prisma,
+          config.SCRAPER_RETENTION_DAYS,
+        );
+        if (count > 0) {
+          app.log.info(
+            { count, retention_days: config.SCRAPER_RETENTION_DAYS },
+            "Purged expired scraper events",
+          );
+        }
+      } catch (err) {
+        app.log.error({ err }, "Failed to purge expired scraper events");
+      }
+    };
+    // Initial run at startup so we don't wait 24h after a restart.
+    void runScraperRetention();
+    const scraperRetentionInterval = setInterval(
+      runScraperRetention,
+      SCRAPER_RETENTION_INTERVAL_MS,
+    );
+
     // Clean up on shutdown
     app.addHook("onClose", async () => {
       clearInterval(interval);
+      clearInterval(scraperRetentionInterval);
     });
   });
 

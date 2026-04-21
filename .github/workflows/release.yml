@@ -1,0 +1,55 @@
+name: Release Desktop
+
+# Triggered by pushing a version tag (e.g. v0.1.1). The tag's version must
+# match apps/desktop/package.json — electron-builder uploads assets named after
+# that version, and electron-updater looks them up by the same name.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+env:
+  NODE_VERSION: "20"
+  PNPM_VERSION: "9"
+
+jobs:
+  release:
+    name: Build & Publish Windows Installer
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      # Shared types must be built before desktop can typecheck against them.
+      - run: pnpm --filter @insurance/shared build
+
+      # Desktop imports Prisma-generated types via @insurance/shared in a few
+      # spots; generate the client so tsc can resolve them.
+      - run: pnpm --filter backend exec prisma generate
+
+      # Compile the renderer + main/preload bundles. We split tsc + vite build
+      # out of the `build` script so we can drive electron-builder explicitly
+      # with `--publish always` (otherwise a draft release is created and the
+      # auto-updater on installed clients won't see it).
+      - name: Compile renderer & electron bundles
+        run: |
+          pnpm --filter desktop exec tsc
+          pnpm --filter desktop exec vite build
+
+      - name: Package and publish installer
+        run: pnpm --filter desktop exec electron-builder --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

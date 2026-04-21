@@ -1,124 +1,110 @@
 import { useOperationsStore } from "@/stores/operations.store";
-import { useEmployeesStore } from "@/stores/employees.store";
-import { SearchInput } from "@/components/shared/SearchInput";
-import { DateRangePicker } from "@/components/shared/DateRangePicker";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { RotateCcw } from "lucide-react";
-import { OPERATION_TYPE_LABELS, OPERATION_SOURCE_LABELS } from "@/lib/constants";
+import { Search, SlidersHorizontal } from "lucide-react";
 
 export function OperationsFilters() {
   const filters = useOperationsStore((s) => s.filters);
   const setFilters = useOperationsStore((s) => s.setFilters);
-  const resetFilters = useOperationsStore((s) => s.resetFilters);
-  const employees = useEmployeesStore((s) => s.employees);
-
-  const hasActiveFilters =
-    filters.search ||
-    filters.type ||
-    filters.source ||
-    filters.employee_id ||
-    filters.date_from ||
-    filters.date_to;
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
-      <SearchInput
-        value={filters.search || ""}
-        onChange={(search) => setFilters({ search: search || undefined })}
-        placeholder="Rechercher par police, client..."
-        className="w-64"
-      />
+    <div className="bg-surface-container-low p-4 rounded-xl flex flex-wrap items-center gap-4">
+      {/* Search */}
+      <div className="flex-1 min-w-[200px] relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-outline h-4 w-4" />
+        <input
+          type="text"
+          placeholder="Police ou Assuré..."
+          value={filters.search || ""}
+          onChange={(e) =>
+            setFilters({ search: e.target.value || undefined })
+          }
+          className="w-full bg-surface-container-lowest border-none rounded-lg pl-10 text-sm py-2.5 focus:ring-2 focus:ring-primary/20 focus:outline-none text-on-surface placeholder:text-outline"
+        />
+      </div>
 
-      <Select
-        value={filters.type || "ALL"}
-        onValueChange={(v) =>
-          setFilters({ type: v === "ALL" ? undefined : (v as "PRODUCTION" | "EMISSION") })
-        }
-      >
-        <SelectTrigger className="w-[150px] h-9">
-          <SelectValue placeholder="Type" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="ALL">Tous les types</SelectItem>
-          {Object.entries(OPERATION_TYPE_LABELS).map(([key, label]) => (
-            <SelectItem key={key} value={key}>
-              {label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      {/* Select filters */}
+      <div className="flex items-center gap-2">
+        <select
+          className="bg-surface-container-lowest border-none rounded-lg text-sm py-2.5 px-3 focus:ring-2 focus:ring-primary/20 focus:outline-none text-on-surface-variant font-medium cursor-pointer"
+          value={filters.date_from ? "custom" : "all"}
+          onChange={(e) => {
+            const v = e.target.value;
+            if (v === "all") {
+              setFilters({ date_from: undefined, date_to: undefined });
+            } else if (v === "today") {
+              const today = new Date().toISOString().split("T")[0];
+              setFilters({ date_from: today, date_to: today });
+            } else if (v === "month") {
+              const now = new Date();
+              const start = new Date(now.getFullYear(), now.getMonth(), 1)
+                .toISOString()
+                .split("T")[0];
+              setFilters({ date_from: start, date_to: undefined });
+            } else if (v === "quarter") {
+              const now = new Date();
+              const start = new Date(now.getFullYear(), now.getMonth() - 3, 1)
+                .toISOString()
+                .split("T")[0];
+              setFilters({ date_from: start, date_to: undefined });
+            }
+          }}
+        >
+          <option value="all">Toutes les dates</option>
+          <option value="today">Aujourd&apos;hui</option>
+          <option value="month">Ce mois</option>
+          <option value="quarter">Dernier trimestre</option>
+        </select>
 
-      <Select
-        value={filters.source || "ALL"}
-        onValueChange={(v) =>
-          setFilters({ source: v === "ALL" ? undefined : (v as "EXCEL" | "MANUAL" | "SCRAPER") })
-        }
-      >
-        <SelectTrigger className="w-[150px] h-9">
-          <SelectValue placeholder="Source" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="ALL">Toutes sources</SelectItem>
-          {Object.entries(OPERATION_SOURCE_LABELS).map(([key, label]) => (
-            <SelectItem key={key} value={key}>
-              {label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-
-      {employees.length > 0 && (
-        <Select
-          value={filters.employee_id || "ALL"}
-          onValueChange={(v) =>
-            setFilters({ employee_id: v === "ALL" || v === null ? undefined : v })
+        <select
+          className="bg-surface-container-lowest border-none rounded-lg text-sm py-2.5 px-3 focus:ring-2 focus:ring-primary/20 focus:outline-none text-on-surface-variant font-medium cursor-pointer"
+          value={filters.type || "ALL"}
+          onChange={(e) =>
+            setFilters({
+              type:
+                e.target.value === "ALL"
+                  ? undefined
+                  : (e.target.value as "PRODUCTION" | "EMISSION"),
+            })
           }
         >
-          <SelectTrigger className="w-[180px] h-9">
-            <SelectValue placeholder="Employe" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="ALL">Tous les employes</SelectItem>
-            {employees.map((emp) => (
-              <SelectItem key={emp.id} value={emp.id}>
-                {emp.full_name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      )}
+          <option value="ALL">Type: Tous</option>
+          <option value="PRODUCTION">Production</option>
+          <option value="EMISSION">Émission</option>
+        </select>
 
-      <DateRangePicker
-        value={{
-          from: filters.date_from ? new Date(filters.date_from) : undefined,
-          to: filters.date_to ? new Date(filters.date_to) : undefined,
-        }}
-        onChange={(range) =>
-          setFilters({
-            date_from: range.from?.toISOString(),
-            date_to: range.to?.toISOString(),
-          })
-        }
-      />
-
-      {hasActiveFilters && (
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-9 text-muted-foreground hover:text-foreground"
-          onClick={resetFilters}
+        <select
+          className="bg-surface-container-lowest border-none rounded-lg text-sm py-2.5 px-3 focus:ring-2 focus:ring-primary/20 focus:outline-none text-on-surface-variant font-medium cursor-pointer"
+          value={filters.source || "ALL"}
+          onChange={(e) =>
+            setFilters({
+              source:
+                e.target.value === "ALL"
+                  ? undefined
+                  : (e.target.value as "EXCEL" | "MANUAL" | "SCRAPER"),
+            })
+          }
         >
-          <RotateCcw className="h-3.5 w-3.5 mr-1.5" />
-          Reinitialiser
-        </Button>
-      )}
+          <option value="ALL">Source: Toutes</option>
+          <option value="EXCEL">Excel</option>
+          <option value="MANUAL">Manuel</option>
+          <option value="SCRAPER">Scraper</option>
+        </select>
+
+        <select
+          className="bg-surface-container-lowest border-none rounded-lg text-sm py-2.5 px-3 focus:ring-2 focus:ring-primary/20 focus:outline-none text-on-surface-variant font-medium cursor-pointer"
+          defaultValue="ALL"
+        >
+          <option value="ALL">Assureur: Tous</option>
+          <option value="saham">Saham</option>
+          <option value="axa">AXA</option>
+          <option value="wafa">Wafa</option>
+          <option value="rma">RMA</option>
+        </select>
+      </div>
+
+      {/* Filter icon button */}
+      <button className="p-2.5 bg-surface-container-lowest text-outline rounded-lg hover:text-primary transition-all">
+        <SlidersHorizontal className="h-5 w-5" />
+      </button>
     </div>
   );
 }

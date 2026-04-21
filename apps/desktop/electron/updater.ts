@@ -1,5 +1,6 @@
 import { app, BrowserWindow } from "electron";
-import { autoUpdater } from "electron-updater";
+import pkg from "electron-updater";
+const { autoUpdater } = pkg;
 
 export function initUpdater(): void {
   if (!app.isPackaged) {

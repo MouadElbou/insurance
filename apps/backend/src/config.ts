@@ -12,6 +12,8 @@ const envSchema = z.object({
   JWT_REFRESH_EXPIRES_IN: z.string().default("7d"),
   BCRYPT_ROUNDS: z.coerce.number().default(12),
   CORS_ORIGIN: z.string().default("http://localhost:5173"),
+  SCRAPER_MAX_BATCH: z.coerce.number().int().min(1).max(500).default(50),
+  SCRAPER_RETENTION_DAYS: z.coerce.number().int().min(1).max(3650).default(180),
 });
 
 function loadConfig() {
