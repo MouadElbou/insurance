@@ -113,6 +113,7 @@ jobs:
           --health-retries 5
     env:
       DATABASE_URL: "postgresql://test:test@localhost:5432/insurance_test?schema=public"
+      DIRECT_URL: "postgresql://test:test@localhost:5432/insurance_test?schema=public"
       JWT_SECRET: "test-jwt-secret-that-is-at-least-32-characters-long"
       JWT_REFRESH_SECRET: "test-jwt-refresh-secret-that-is-also-32-chars"
       NODE_ENV: test
