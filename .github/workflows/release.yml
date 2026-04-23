@@ -45,6 +45,9 @@ jobs:
       # with `--publish always` (otherwise a draft release is created and the
       # auto-updater on installed clients won't see it).
       - name: Compile renderer & electron bundles
+        env:
+          VITE_API_URL: https://backend-production-ecde.up.railway.app
+          VITE_WS_URL: https://backend-production-ecde.up.railway.app
         run: |
           pnpm --filter desktop exec tsc
           pnpm --filter desktop exec vite build
