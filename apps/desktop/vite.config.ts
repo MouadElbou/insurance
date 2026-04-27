@@ -10,6 +10,13 @@ export default defineConfig({
       {
         entry: "electron/main.ts",
         vite: {
+          // VITE_* env vars are renderer-only at runtime; bake them into the
+          // main bundle via define() so getApiUrl() resolves to the Railway
+          // URL in packaged builds instead of falling back to localhost.
+          define: {
+            "process.env.VITE_API_URL": JSON.stringify(process.env.VITE_API_URL ?? ""),
+            "process.env.VITE_WS_URL": JSON.stringify(process.env.VITE_WS_URL ?? ""),
+          },
           build: {
             outDir: "dist-electron",
             rollupOptions: {
