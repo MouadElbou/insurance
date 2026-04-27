@@ -59,7 +59,7 @@ function createWindow() {
         "Content-Security-Policy": [
           isDev
             ? "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:* http://localhost:*; img-src 'self' data:; font-src 'self' data: https://fonts.gstatic.com"
-            : "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' http://localhost:*; img-src 'self' data:; font-src 'self' data: https://fonts.gstatic.com",
+            : "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self' https://backend-production-ecde.up.railway.app wss://backend-production-ecde.up.railway.app; img-src 'self' data:; font-src 'self' data: https://fonts.gstatic.com",
         ],
       },
     });
