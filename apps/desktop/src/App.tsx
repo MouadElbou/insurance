@@ -1,4 +1,4 @@
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { SocketProvider } from "@/providers/SocketProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 export function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AuthProvider>
         <SocketProvider>
           <QueryProvider>
@@ -16,6 +16,6 @@ export function App() {
           </QueryProvider>
         </SocketProvider>
       </AuthProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
